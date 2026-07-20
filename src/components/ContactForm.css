@@ -1,0 +1,224 @@
+.contact-form {
+  /* Self-contained design tokens — every variable used below is defined
+     here, and every var() call also carries an explicit literal fallback,
+     so this file renders correctly even without index.css or App.css. */
+  --cf-bg: #ffffff;
+  --cf-text: #6b6375;
+  --cf-text-h: #08060d;
+  --cf-border: #e5e4e7;
+  --cf-accent: #aa3bff;
+  --cf-accent-bg: rgba(170, 59, 255, 0.1);
+  --cf-accent-border: rgba(170, 59, 255, 0.5);
+  --cf-shadow:
+    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --cf-font: system-ui, "Segoe UI", Roboto, sans-serif;
+
+  --cf-error: #b91c1c;
+  --cf-error-bg: rgba(185, 28, 28, 0.08);
+  --cf-success: #15803d;
+  --cf-success-bg: rgba(21, 128, 61, 0.08);
+
+  --cf-submit-bg: #772db3;
+  --cf-submit-bg-hover: #882fcc;
+
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  text-align: left;
+  box-sizing: border-box;
+  padding: 40px 36px;
+  background-color: var(--cf-bg, #ffffff);
+  border: 1px solid var(--cf-border, #e5e4e7);
+  border-radius: 14px;
+  box-shadow: var(
+    --cf-shadow,
+    rgba(0, 0, 0, 0.1) 0 10px 15px -3px,
+    rgba(0, 0, 0, 0.05) 0 4px 6px -2px
+  );
+}
+
+.contact-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  label {
+    font-family: var(--cf-font, system-ui, "Segoe UI", Roboto, sans-serif);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.1px;
+    color: var(--cf-text-h, #08060d);
+
+    &::after {
+      content: " *";
+      color: var(--cf-accent, #aa3bff);
+    }
+  }
+
+  input,
+  textarea {
+    font: inherit;
+    font-size: 16px;
+    color: var(--cf-text-h, #08060d);
+    background-color: var(--cf-bg, #ffffff);
+    border: 1.5px solid var(--cf-border, #e5e4e7);
+    border-radius: 8px;
+    padding: 12px 14px;
+    box-sizing: border-box;
+    width: 100%;
+    resize: vertical;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease,
+      background-color 0.2s ease;
+
+    &::placeholder {
+      color: var(--cf-text, #6b6375);
+      opacity: 0.6;
+    }
+
+    &:hover:not(:focus-visible) {
+      border-color: var(--cf-accent-border, rgba(170, 59, 255, 0.5));
+    }
+
+    &:focus-visible {
+      outline: none;
+      border-color: var(--cf-accent, #aa3bff);
+      box-shadow: 0 0 0 4px var(--cf-accent-bg, rgba(170, 59, 255, 0.1));
+    }
+
+    &[aria-invalid="true"] {
+      border-color: var(--cf-error, #b91c1c);
+
+      &:focus-visible {
+        box-shadow: 0 0 0 4px var(--cf-error-bg, rgba(185, 28, 28, 0.08));
+      }
+    }
+  }
+
+  textarea {
+    min-height: 120px;
+    line-height: 145%;
+  }
+}
+
+.contact-form__error {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin: 0;
+  font-size: 13px;
+  line-height: 140%;
+  color: var(--cf-error, #b91c1c);
+  animation: contact-form-error-in 0.2s ease;
+
+  &::before {
+    content: "⚠";
+    flex: none;
+    line-height: 1;
+    margin-top: 1px;
+  }
+}
+
+.contact-form__submit {
+  align-self: flex-start;
+  font-family: var(--cf-font, system-ui, "Segoe UI", Roboto, sans-serif);
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px 28px;
+  border-radius: 8px;
+  color: #ffffff;
+  background-color: var(--cf-submit-bg, #772db3);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+
+  &:hover {
+    background-color: var(--cf-submit-bg-hover, #882fcc);
+  }
+  &:active {
+    transform: translateY(1px);
+  }
+  &:focus-visible {
+    outline: 2px solid var(--cf-accent, #aa3bff);
+    outline-offset: 3px;
+  }
+}
+
+.contact-form__success {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 14px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--cf-success, #15803d);
+  background-color: var(--cf-success-bg, rgba(21, 128, 61, 0.08));
+  border: 1px solid var(--cf-success, #15803d);
+  border-radius: 8px;
+  animation: contact-form-error-in 0.25s ease;
+
+  &::before {
+    content: "✓";
+    font-weight: 700;
+  }
+}
+
+@keyframes contact-form-error-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .contact-form {
+    --cf-bg: #16171d;
+    --cf-text: #9ca3af;
+    --cf-text-h: #f3f4f6;
+    --cf-border: #2e303a;
+    --cf-accent: #c084fc;
+    --cf-accent-bg: rgba(192, 132, 252, 0.15);
+    --cf-accent-border: rgba(192, 132, 252, 0.5);
+    --cf-shadow:
+      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+
+    --cf-error: #f87171;
+    --cf-error-bg: rgba(248, 113, 113, 0.12);
+    --cf-success: #4ade80;
+    --cf-success-bg: rgba(74, 222, 128, 0.12);
+
+    --cf-submit-bg: #865eb0;
+    --cf-submit-bg-hover: #9a6aca;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-form__error,
+  .contact-form__success {
+    animation: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  .contact-form {
+    gap: 20px;
+    padding: 28px 20px;
+    border-radius: 10px;
+  }
+
+  .contact-form__submit {
+    width: 100%;
+    text-align: center;
+  }
+}
